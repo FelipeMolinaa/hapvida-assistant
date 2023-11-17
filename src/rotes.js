@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CadastroCelularScreen from "./pages/userAuth/CadastroCelularScreen";
 import ConfirmarCodigoScreen from "./pages/userAuth/ConfirmarCodigoScreen";
 import ListaPacientesScreen from "./pages/pacientes/ListaPacientesScreen";
+import CadastroPacienteScreen from "./pages/pacientes/CadastroPacienteScreen";
 
 const stack = createNativeStackNavigator();
 
@@ -15,6 +16,10 @@ export default function Rotes() {
                 <stack.Screen
                     name="listaPacientes"
                     component={ListaPacientesScreen}
+                />
+                <stack.Screen
+                    name="cadastroPaciente"
+                    component={CadastroPacienteScreen}
                 />
                 <stack.Screen
                     name="CadastroCelular"

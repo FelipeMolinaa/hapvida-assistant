@@ -21,11 +21,21 @@ const GlobalStyles = StyleSheet.create({
         borderRadius: 8,
         padding: 12,
         fontSize: 16,
+        marginBottom: 8,
     },
     containerCenter: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 3,
+    },
+
+    fabText: {
+        fontSize: 32,
+        color: "#fff",
     },
 });
 

@@ -12,19 +12,16 @@ import {
 } from "react-native";
 import GlobalStyles from "../../styles/GlobalStyles";
 
-// Criando o componente da tela de autenticação
+import FABButton from "../../components/FAB";
+
 const ListaPacientesScreen = ({ navigation }) => {
     const data = [
         { id: "1", emoji: "👩‍💼", name: "Maria", age: 25 },
         { id: "2", emoji: "👨‍💻", name: "João", age: 30 },
         { id: "3", emoji: "👴🏾", name: "José", age: 65 },
-        // Adicione mais pessoas conforme necessário
     ];
 
-    const handleItemPress = (item) => {
-        // Adicione a lógica que você deseja quando um item é clicado
-        console.log(`Item clicado: ${item.name}`);
-    };
+    const handleItemPress = (item) => {};
 
     const renderItem = ({ item }) => (
         <TouchableOpacity
@@ -47,12 +44,11 @@ const ListaPacientesScreen = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 numColumns={2}
             />
-            <TouchableOpacity
-                style={styles.fab}
-                onPress={() => console.log("FAB Pressed")}
-            >
-                <Text style={styles.fabText}>+</Text>
-            </TouchableOpacity>
+
+            <FABButton
+                iconName="plus"
+                onPress={() => navigation.navigate("cadastroPaciente")}
+            />
         </View>
     );
 };
@@ -62,7 +58,7 @@ export default ListaPacientesScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 24,
+        paddingTop: 32,
         paddingHorizontal: 8,
     },
     item: {
@@ -87,21 +83,5 @@ const styles = StyleSheet.create({
     age: {
         fontSize: 16,
         color: "#888",
-    },
-    fab: {
-        position: "absolute",
-        width: 75,
-        height: 75,
-        alignItems: "center",
-        justifyContent: "center",
-        right: 16,
-        bottom: 24,
-        backgroundColor: "#E23932", // Cor do FAB
-        borderRadius: 100,
-        elevation: 8,
-    },
-    fabText: {
-        fontSize: 32,
-        color: "#fff",
     },
 });

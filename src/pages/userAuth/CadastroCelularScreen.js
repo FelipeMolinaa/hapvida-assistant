@@ -48,10 +48,6 @@ const CadastroCelularScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    label: {
-        fontSize: 16,
-        marginBottom: 5,
-    },
     button: {
         borderRadius: 8,
     },
