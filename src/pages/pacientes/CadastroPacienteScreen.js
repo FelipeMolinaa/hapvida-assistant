@@ -4,12 +4,11 @@ import {
     View,
     Text,
     TextInput,
-    Button,
-    TouchableOpacity,
     StyleSheet,
     Alert,
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
+import PacientesService from "../../service/PacientesService";
 
 import { Picker } from "@react-native-picker/picker";
 import GlobalStyles from "../../styles/GlobalStyles";
@@ -23,9 +22,17 @@ const CadastroPacienteScreen = ({ navigation }) => {
     );
     const [sexo, setSexo] = useState("masculino");
     const [detalhes, setDetalhes] = useState("");
+    const [emoji, setEmoji] = useState("");
 
     const cadastrarPaciente = () => {
-        if (nome.length != 0) {
+        if (nome.length != 0 && emoji.length != 0) {
+            PacientesService.cadastrar("paciente", {
+                nome: nome,
+                dataNascimento: dataNascimento,
+                sexo: sexo,
+                detalhes: detalhes,
+                emoji: emoji
+            })
             navigation.goBack();
             return;
         }
@@ -35,14 +42,42 @@ const CadastroPacienteScreen = ({ navigation }) => {
         );
     };
 
-    const OnChangeDataInput = (text) => {
-        console.log(text);
-    };
-
     return (
-        <View style={styles.container}>
+        <View style={[GlobalStyles.container]}>
             <GoBackArrow onPress={() => navigation.goBack()} />
             <View>
+                <Picker
+                    style={GlobalStyles.input}
+                    selectedValue={emoji}
+                    onValueChange={(itemValue, itemIndex) =>
+                        setEmoji(itemValue)
+                    }>
+                    <Picker.Item label="Selecione um emoji" value="" />
+                    <Picker.Item label="👶🏼" value="👶🏼" />
+                    <Picker.Item label="👶🏽" value="👶🏽" />
+                    <Picker.Item label="👶🏾" value="👶🏾" />
+                    <Picker.Item label="👶🏿" value="👶🏿" />
+                    <Picker.Item label="👦🏻" value="👦🏻" />
+                    <Picker.Item label="👦🏼" value="👦🏼" />
+                    <Picker.Item label="👦🏽" value="👦🏽" />
+                    <Picker.Item label="👦🏾" value="👦🏾" />
+                    <Picker.Item label="👦🏿" value="👦🏿" />
+                    <Picker.Item label="👧🏻" value="👧🏻" />
+                    <Picker.Item label="👧🏼" value="👧🏼" />
+                    <Picker.Item label="👧🏽" value="👧🏽" />
+                    <Picker.Item label="👧🏾" value="👧🏾" />
+                    <Picker.Item label="👧🏿" value="👧🏿" />
+                    <Picker.Item label="👨🏻" value="👨🏻" />
+                    <Picker.Item label="👨🏼" value="👨🏼" />
+                    <Picker.Item label="👨🏽" value="👨🏽" />
+                    <Picker.Item label="👨🏾" value="👨🏾" />
+                    <Picker.Item label="👨🏿" value="👨🏿" />
+                    <Picker.Item label="👩🏻" value="👩🏻" />
+                    <Picker.Item label="👩🏼" value="👩🏼" />
+                    <Picker.Item label="👩🏽" value="👩🏽" />
+                    <Picker.Item label="👩🏾" value="👩🏾" />
+                    <Picker.Item label="👩🏿" value="👩🏿" />
+                </Picker>
                 <Text style={GlobalStyles.label}>Nome:</Text>
                 <TextInput
                     style={GlobalStyles.input}
@@ -85,11 +120,7 @@ const CadastroPacienteScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 32,
-        paddingHorizontal: 16,
-    },
+
 });
 
 export default CadastroPacienteScreen;

@@ -1,27 +1,58 @@
 // Importando as dependências do React Native
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
-    TextInput,
-    Button,
-    Alert,
     FlatList,
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
 import GlobalStyles from "../../styles/GlobalStyles";
 
+import PacientesService from "../../service/PacientesService";
+import { useIsFocused } from '@react-navigation/native';
+
 import FABButton from "../../components/FAB";
 
 const ListaPacientesScreen = ({ navigation }) => {
-    const data = [
-        { id: "1", emoji: "👩‍💼", name: "Maria", age: 25 },
-        { id: "2", emoji: "👨‍💻", name: "João", age: 30 },
-        { id: "3", emoji: "👴🏾", name: "José", age: 65 },
-    ];
 
-    const handleItemPress = (item) => {};
+    const [data, setData] = useState([]);
+    const isFocused = useIsFocused();
+
+    getAllPacientes = async () => {
+        var response = await PacientesService.getAll("paciente")
+        setData(response)
+    }
+
+    useEffect(() => {
+        getAllPacientes();
+    }, [isFocused]);
+
+    const handleItemPress = (item) => {
+        console.log(item)
+        navigation.navigate("PacienteHome", item.key);
+    };
+
+    const calcularDiferencaDeTempo = (data) => {
+        const partesData = data.split("/");
+
+        const dataFornecida = new Date(partesData[2], partesData[1] - 1, partesData[0]); // Mês é indexado de 0 a 11
+
+        const dataAtual = new Date();
+        const diferencaEmMilissegundos = dataAtual - dataFornecida;
+
+        const anos = Math.floor(diferencaEmMilissegundos / (365.25 * 24 * 60 * 60 * 1000));
+        const meses = Math.floor(diferencaEmMilissegundos / (30.44 * 24 * 60 * 60 * 1000));
+        const semanas = Math.floor(diferencaEmMilissegundos / (7 * 24 * 60 * 60 * 1000));
+
+        if (anos > 0) {
+            return `${anos} ${anos === 1 ? 'ano' : 'anos'}`;
+        } else if (meses > 0) {
+            return `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+        } else {
+            return `${semanas} ${semanas === 1 ? 'semana' : 'semanas'}`;
+        }
+    }
 
     const renderItem = ({ item }) => (
         <TouchableOpacity
@@ -31,17 +62,17 @@ const ListaPacientesScreen = ({ navigation }) => {
             <View style={styles.avatarContainer}>
                 <Text style={styles.emoji}>{item.emoji}</Text>
             </View>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.age}>{`${item.age} anos`}</Text>
+            <Text style={styles.name}>{item.nome}</Text>
+            <Text style={styles.age}>{`${calcularDiferencaDeTempo(item.dataNascimento)}`}</Text>
         </TouchableOpacity>
     );
 
     return (
-        <View style={styles.container}>
+        <View style={GlobalStyles.container}>
             <FlatList
                 data={data}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.key}
                 numColumns={2}
             />
 
@@ -56,11 +87,7 @@ const ListaPacientesScreen = ({ navigation }) => {
 export default ListaPacientesScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 32,
-        paddingHorizontal: 8,
-    },
+
     item: {
         flex: 1,
         margin: 8,
@@ -79,6 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 4,
+        textAlign: "center"
     },
     age: {
         fontSize: 16,

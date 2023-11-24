@@ -23,10 +23,10 @@ const GlobalStyles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 8,
     },
-    containerCenter: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        paddingTop: 32,
+        paddingHorizontal: 8,
     },
     label: {
         fontSize: 16,
